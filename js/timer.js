@@ -2,21 +2,28 @@ $('#start').click(function(){
 
   isPaused = 0;
 
-  $(this).hide();
+  $(this).prop('hidden', true);
+  $('#plus-1').prop('hidden', false);
+  $('#pause').prop('hidden', false);
+
+  $('#plus-1').click(function(){
+    deadline += 60 * 1000;
+  });
 
   $('#pause').click(function(){
     if(!isPaused){
       isPaused = 1;
+      $('#plus-1').prop('hidden', true);
+      $('#reset').prop('hidden', false);
     } else {
       isPaused = 0;
+      $('#plus-1').prop('hidden', false);
+      $('#reset').prop('hidden', true);
     }
   });
 
   $('#reset').click(function(){
-    clearInterval(timeinterval);
-    $('.hours').html('00'); 
-    $('.minutes').html('00');
-    $('.seconds').html('00');
+    resetTimer();
   });
 
   function getTimeRemaining() {
@@ -35,30 +42,42 @@ $('#start').click(function(){
   }
 
   function initializeClock(id) {
-    var clock = document.getElementById(id);
-    var hoursSpan = clock.querySelector('.hours');
-    var minutesSpan = clock.querySelector('.minutes');
-    var secondsSpan = clock.querySelector('.seconds');
 
     timeinterval = setInterval(function(){
       if(!isPaused){
         var t = getTimeRemaining();
-        hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-        minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-        secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+        
+        $('.hours').val(('0' + t.hours).slice(-2));
+        $('.minutes').val(('0' + t.minutes).slice(-2));
+        $('.seconds').val(('0' + t.seconds).slice(-2));
 
         if (t.total <= 0) {
-          clearInterval(timeinterval);
+          resetTimer();
+          alert("Cabou");
         }
       }
       console.log(t);
     }, 1000);
   }
 
-  var hour_val = $('#setHour').val();
-  var min_val = $('#setMin').val();
+  function resetTimer(){
+    clearInterval(timeinterval);
+    $('.hours').val(''); 
+    $('.minutes').val('');
+    $('.seconds').val('');
+    
+    $(this).prop('hidden', true);
+    $('#pause').prop('hidden', true);
+    $('#plus-1').prop('hidden', false);
+    $('#start').prop('hidden', false);
 
-  deadline = (hour_val * 3600 * 1000) + (min_val * 60 * 1000);
+  }
+
+  var hour_val = $('.hours').val();
+  var min_val = $('.minutes').val();
+  var sec_val = $('.seconds').val();
+
+  deadline = (hour_val * 3600 * 1000) + (min_val * 60 * 1000) + (sec_val * 1000);
   initializeClock('clockdiv');
 
 });

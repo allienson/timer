@@ -6,3 +6,33 @@
 .display-1{
     font-size: 200px;
 }
+
+.btn{
+    border-radius: 1rem;
+    font-size: 50px;
+    padding: .375rem 2rem;
+}
+
+.btn-link:hover, .btn-link:focus{
+    text-decoration: none;
+}
+
+input{
+    font-size: 200px;
+    width: 220px;
+    padding: 0;
+    border: 0;
+    outline: none;
+    text-align: right;
+    color: #212529;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+::placeholder{
+    color: #212529;
+}
